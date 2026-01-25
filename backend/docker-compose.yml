@@ -1,0 +1,30 @@
+services:
+  web:
+    build: .
+    container_name: tunify-app
+    command: bash -c "sleep 5 && uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    volumes:
+      - .:/app
+      - /app/.venv  # prevents local .venv from overriding container
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql+asyncpg://tunify_user:tunify_pass@db:5432/tunify_db
+
+  db:
+    image: postgres:15
+    container_name: tunify-db
+    restart: always
+    environment:
+      POSTGRES_USER: tunify_user
+      POSTGRES_PASSWORD: tunify_pass
+      POSTGRES_DB: tunify_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
