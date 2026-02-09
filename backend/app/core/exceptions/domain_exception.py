@@ -27,3 +27,11 @@ class PermissionDeniedException(DomainException):
 class ValidationException(DomainException):
     """Raised when business validation fails."""
     pass
+
+class ForbiddenException(DomainException):
+    """Raised when ownership check fails."""
+    pass
+
+class BadRequestException(DomainException):
+    """Raised for invalid requests."""
+    pass

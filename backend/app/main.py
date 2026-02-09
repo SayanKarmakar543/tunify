@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.handler import register_exception_handlers
 from app.api.v1 import (
     auth,
@@ -10,7 +9,10 @@ from app.api.v1 import (
     tracks,
     playlists,
     likes,
-    admin_analytics,
+)
+from app.api.v1.admin import (
+    playlists as admin_playlists,
+    analytics as admin_analytics,
 )
 
 app = FastAPI()
@@ -22,6 +24,7 @@ app.include_router(albums.router)
 app.include_router(tracks.router)
 app.include_router(playlists.router)
 app.include_router(likes.router)
+app.include_router(admin_playlists.router)
 app.include_router(admin_analytics.router)
 
 app.add_middleware(
