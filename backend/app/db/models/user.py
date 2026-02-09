@@ -24,6 +24,11 @@ class User(Base):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     # Relationships
-    playlists = relationship("Playlist", back_populates="user", cascade="all, delete-orphan")
+    playlists = relationship(
+        "Playlist", 
+        foreign_keys="Playlist.user_id", 
+        back_populates="user", 
+        cascade="all, delete-orphan"
+    )
     likes = relationship("Like", back_populates="user", cascade="all, delete-orphan")
     refresh_tokens = relationship("RefreshToken", back_populates="user", cascade="all, delete-orphan")
